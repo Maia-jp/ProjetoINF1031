@@ -8,5 +8,7 @@ A ideia desse projeto é criar um protótipo de “Aquário inteligente” usand
 Todas as informacoes sao coletadas usando o ESP8266, nele esta imbutido o termometro DS18B20 que opera na faixa de -55°C a 125°C.
 
  *Joao Pedro Maia*
+ 
  *Caio Coutinho*
+ 
   **Projeto da disciplica INF1031 - professora Noemi Rodriguez**
