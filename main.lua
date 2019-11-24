@@ -10,19 +10,23 @@ local colorAzulhard = {32/255, 78/255, 152/255} -- azul escuro
 
 
 --codigo principal 
-local msgr = require "mqttLoveLibrary"
-local easytext = require "easytext"
+local msgr = require "modulos.mqttLoveLibrary"
+local easytext = require "modulos.easytext"
 
 local txt = "||Procesando|"
 local minhamat = '1234'
-local data = io.open("data.txt","w")
 local temp = {}
+
+-- preparando planilha da sessao
+local data = io.open("data.csv","w")
+data:write('Temperatura,Hora,Data \n')
+
 
 
 function love.draw()
 
 	-- Titulo
-	Titulo = easytext.new('lion_king', 50, "Aquario")
+	Titulo = easytext.new('modulos/lion_king', 50, "Aquario")
     easytext.setColor (Titulo, 215/255, 162/255, 58/255)
     easytext.draw(Titulo,225, 40)
 
@@ -41,8 +45,8 @@ end
 
 local function mensagemRecebida (mensagem)
   txt = mensagem
-  -- tranforma os dados em um arquivo txt
-  data:write(mensagem.." "..os.date()..'\n')
+  -- tranforma os dados em um arquivo csv
+  data:write(mensagem..","..os.date("%X")..","..os.date("%x").."\n")
   -- Adiciona cada temperatura a tabela
   table.insert(temp, mensagem)
   end
@@ -74,12 +78,8 @@ function grafico(tabela)
 			love.graphics.setColor(colorAzulhard)
 		end
 
-		-- trata valores para o grafico completo||Remove todos os itens da tabela quando ela estiver completa
-		-- os dados nao sao perdidos pois sao salvos em txt
-		if i == 418 then
-			for r=1, #tabela do
-				tabela[r] = nil
-			end
+		if i == 418 then -- para de plotar quando o grafico chega no maximo, dados continuam sendo salvos em csv
+			break
 		end
 
 		-- Plota no grafico
