@@ -1,6 +1,7 @@
 local function wifi_connected_callback(iptable)
   print("wifi_connected_callback")
   print("ip: " .. iptable.IP)
+  dofile("brain.lua")
 end
 
 wificonf = {

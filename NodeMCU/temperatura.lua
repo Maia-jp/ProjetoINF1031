@@ -3,6 +3,8 @@ local pin = 7
 local atual = 0 
 local  loop = true
 local minhamat = "1234"
+local led1 = 3
+local led2 = 6
 
 local msgr = require("mqttNodeMCULibrary")
 
@@ -14,5 +16,21 @@ print("Temperatura: "..atual.." °C")
 msgr.sendMessage(atual,minhamat.."love")
 end
 
-t:read_temp(readout, pin, t.C)
+function minharead()
+  t:read_temp(readout, pin, t.C)
+end
+
+function mensagemRecebida(msgn)
+	print(msgn)
+	if msgn == "true" then
+    gpio.write(led2, gpio.HIGH)
+    gpio.write(led1, gpio.LOW)
+  elseif msgn == "false" then
+    gpio.write(led1, gpio.HIGH)
+    gpio.write(led2, gpio.LOW)
+  end
+
+end
+
+
 msgr.start("test.mosquitto.org", minhamat, minhamat .. "node", mensagemRecebida)
