@@ -21,6 +21,13 @@ local temp = {}
 local data = io.open("data.csv","w")
 data:write('Temperatura,Hora,Data \n')
 
+-- estado da bomba
+
+local estadobomba = true
+
+--ultima ultimaAtt
+local ultimaAtt = "nill"
+
 
 
 function love.draw()
@@ -38,21 +45,40 @@ function love.draw()
 	love.graphics.setColor(colorGrafico)
 	love.graphics.rectangle( "fill", 40, 50+25, 420, 120 )
 
-    love.graphics.print("Temperatura: "..txt, 40, 200,0,1.2)
+    love.graphics.print("Temperatura: "..txt, 40, 240,0,1.2)
   
     grafico(temp)
+
+    --bomba
+    DisplayBomba(estadobomba)
+    love.graphics.setColor(colorGrafico)
+    love.graphics.print("Estado da Bomba: "..string.format("%s\n", tostring(estadobomba)), 40, 280,0,1.2)
+
+    -- atualizacao
+    love.graphics.print(ultimaAtt,40, 200,0,1.2)
 end
 
 local function mensagemRecebida (mensagem)
   txt = mensagem
+  ultimaAtt = os.date()
   -- tranforma os dados em um arquivo csv
   data:write(mensagem..","..os.date("%X")..","..os.date("%x").."\n")
   -- Adiciona cada temperatura a tabela
   table.insert(temp, mensagem)
+
+  --enviar estado da bomba
+  sgundos = os.date("%S")
+  if sgundos % 5 == 0 then
+	bomba(true)
+	estadobomba = true
+else
+	bomba(false)
+	estadobomba = false
   end
+end
 
 function love.load()
-love.window.setMode(500, 600)
+love.window.setMode(500, 309.006)
 love.graphics.setBackgroundColor(colorBase)
 msgr.start("test.mosquitto.org", minhamat, _,  mensagemRecebida)
 love.window.setTitle("Aquario v0.2")
@@ -82,9 +108,34 @@ function grafico(tabela)
 			break
 		end
 
+		--retangulo da temperatura
+		love.graphics.rectangle( "fill",  42, 226, 100, 10)
+
 		-- Plota no grafico
 		love.graphics.circle( "fill", 42+i, 160+25-tabela[i]*2, 3)
 		love.graphics.setColor(244/255,251/255,252/255)
 		
 	end
+end
+
+-- Envia para o node a situacao da bomba
+function bomba(status)
+  if status then
+    msgr.sendMessage("true",minhamat.."node")
+    
+  else
+    msgr.sendMessage("false",minhamat.."node")
+    
+	end
+end
+-- exibe o estado da bomba
+function DisplayBomba(estado)
+	love.graphics.setColor(colorAzulhard)
+	if estado then
+		love.graphics.setColor(colorGreen)
+	else
+		love.graphics.setColor(colorRed)
+	end
+	love.graphics.rectangle( "fill",  42, 267, 100, 10)
+
 end
