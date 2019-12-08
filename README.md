@@ -4,8 +4,7 @@ A ideia desse projeto é criar um protótipo de “Aquário inteligente” usand
 - Funcionalidades
   - Sensor de Temperatura
   - interface grafica
-### Coleta de Dados
-Todas as informacoes sao coletadas usando o ESP8266, nele esta imbutido o termometro DS18B20 que opera na faixa de -55°C a 125°C.
+  -Exportacao de dados em .csv
 
  *Joao Pedro Maia*
  
