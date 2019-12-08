@@ -5,6 +5,7 @@ A ideia desse projeto é criar um protótipo de “Aquário inteligente” usand
   - Sensor de Temperatura
   - interface grafica
   - Exportacao de dados em .csv
+  - Controle de Bomba
 
  *Joao Pedro Maia*
  
