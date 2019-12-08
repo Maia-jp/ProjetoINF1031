@@ -67,8 +67,8 @@ local function mensagemRecebida (mensagem)
   table.insert(temp, mensagem)
 
   --enviar estado da bomba
-  sgundos = os.date("%S")
-  if sgundos % 5 == 0 then
+  hora = os.date("%M")
+  if hora % 2 == 0 then
 	bomba(true)
 	estadobomba = true
 else
