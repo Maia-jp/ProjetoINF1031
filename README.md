@@ -11,4 +11,4 @@ A ideia desse projeto é criar um protótipo de “Aquário inteligente” usand
  
  *Caio Coutinho*
  
-  **Projeto da disciplica INF1031 - professora Noemi Rodriguez**
+  **Projeto da disciplica INF1031 (2019.2) - professora Noemi Rodriguez**
